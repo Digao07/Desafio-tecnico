@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "root",
+    "password": "digao120",
+    "database": "local",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "root",
+    "password": "digao120",
+    "database": "local_test",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": "digao120",
+    "database": "local_prod",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  }
+}
