@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import api from '../../api/api';
 
-const TaskForm = () => {
+const TaskForm = ({ onTaskAdded }) => { // Recebe a função onTaskAdded como prop
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [completed, setCompleted] = useState(false);
@@ -10,11 +10,16 @@ const TaskForm = () => {
     e.preventDefault();
     try {
       const token = localStorage.getItem('token');
-      await api.post('/tasks', { title, description, completed }, {
+      const response = await api.post('/tasks', { title, description, completed }, {
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
+
+      // Chama a função onTaskAdded para atualizar a lista de tarefas
+      onTaskAdded(response.data);
+
+      // Limpa o formulário
       setTitle('');
       setDescription('');
       setCompleted(false);
@@ -25,16 +30,16 @@ const TaskForm = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h2>Add Task</h2>
+      <h2>Adicionar Nova Tarefa</h2>
       <input
         type="text"
-        placeholder="Title"
+        placeholder="Título"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         required
       />
       <textarea
-        placeholder="Description"
+        placeholder="Descrição"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
         required
@@ -45,9 +50,9 @@ const TaskForm = () => {
           checked={completed}
           onChange={(e) => setCompleted(e.target.checked)}
         />
-        Completed
+        Completa
       </label>
-      <button type="submit">Add Task</button>
+      <button type="submit">Adicionar Tarefa</button>
     </form>
   );
 };

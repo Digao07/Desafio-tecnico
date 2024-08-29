@@ -28,19 +28,30 @@ router.post('/', authenticateToken, async (req, res) => {
 // Editar Tarefa
 router.put('/:id', authenticateToken, async (req, res) => {
   try {
+    const taskId = req.params.id;
+    const userId = req.user.id;
     const { title, description, completed } = req.body;
-    const task = await Task.findByPk(req.params.id);
-    if (task && task.userId === req.user.id) {
-      task.title = title;
-      task.description = description;
-      task.completed = completed;
-      await task.save();
-      res.json(task);
-    } else {
-      res.status(404).json({ message: 'Tarefa não encontrada' });
+
+    // Encontrar a tarefa pelo ID e pelo ID do usuário autenticado
+    const task = await Task.findOne({ where: { id: taskId, userId } });
+
+    if (!task) {
+      return res.status(404).json({ message: 'Tarefa não encontrada' });
     }
+
+    // Criar um objeto com os campos atualizados
+    const updatedFields = {};
+    if (title !== undefined) updatedFields.title = title;
+    if (description !== undefined) updatedFields.description = description;
+    if (completed !== undefined) updatedFields.completed = completed;
+
+    // Atualizar a tarefa com os campos fornecidos
+    await task.update(updatedFields);
+
+    return res.json({ message: 'Tarefa atualizada com sucesso', task });
   } catch (error) {
-    res.status(500).json({ message: 'Erro ao editar tarefa', error });
+    console.error('Erro ao atualizar tarefa:', error);
+    return res.status(500).json({ message: 'Erro ao atualizar tarefa', error: error.message });
   }
 });
 
