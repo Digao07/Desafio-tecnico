@@ -38,7 +38,7 @@ Esta aplicação web permite que os usuários gerenciem suas tarefas diárias de
 
 1. Clone o repositório do backend:
     ```bash
-    git clone https://github.com/seu-usuario/task-manager-backend.git
+    git clone https://github.com/Digao07/task-manager-backend.git
     cd task-manager-backend
     ```
 
@@ -71,7 +71,7 @@ Esta aplicação web permite que os usuários gerenciem suas tarefas diárias de
 
 1. Clone o repositório do frontend:
     ```bash
-    git clone https://github.com/seu-usuario/task-manager-frontend.git
+    git clone https://github.com/Digao07/task-manager-frontend.git
     cd task-manager-frontend
     ```
 
